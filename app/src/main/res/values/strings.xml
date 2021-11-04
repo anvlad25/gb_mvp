@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">mvp_gb</string>
+    <string name="counter_one">Счётчик 1</string>
+    <string name="counter_two">Счётчик 2</string>
+    <string name="counter_three">Счётчик 3</string>
+    <string name="_0">0</string>
+</resources>
