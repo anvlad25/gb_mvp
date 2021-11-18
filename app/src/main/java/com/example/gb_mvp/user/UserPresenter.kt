@@ -13,7 +13,7 @@ class UserPresenter(
     override fun onFirstViewAttach() {
         userRepository
             .getUserByLogin(userLogin)
-            ?.let(viewState::showUser)
+            .subscribe(viewState::showUser)
     }
 
     fun backPressed(): Boolean {

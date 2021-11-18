@@ -31,13 +31,15 @@ class UsersPresenter(private val usersRepo: GithubUsersRepo, private val router:
 
 
         usersListPresenter.itemClickListener = { itemView ->
-            router.navigateTo(UserScreen(usersRepo.getLoginByPos(itemView.pos)))
+            usersRepo
+                .getLoginByPos(itemView.pos)
+                .subscribe { bla -> router.navigateTo(UserScreen(bla)) }
         }
     }
 
     private fun loadData() {
         val users = usersRepo.getUsers()
-        usersListPresenter.users.addAll(users)
+        users.subscribe { usersList -> usersListPresenter.users.addAll(usersList) }
         viewState.updateList()
     }
 
