@@ -3,15 +3,14 @@ package com.example.gb_mvp.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.gb_mvp.databinding.ItemUserBinding
-import com.example.gb_mvp.setUserAvatar
+import com.example.gb_mvp.databinding.ItemRepoBinding
 
-class UsersRVAdapter(private val presenter: IUserListPresenter) :
-    RecyclerView.Adapter<UsersRVAdapter.ViewHolder>() {
+class ReposRVAdapter(private val presenter: IRepoListPresenter) :
+    RecyclerView.Adapter<ReposRVAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(
-            ItemUserBinding.inflate(
+            ItemRepoBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -26,14 +25,13 @@ class UsersRVAdapter(private val presenter: IUserListPresenter) :
         presenter.bindView(holder.apply { pos = position })
     }
 
-    inner class ViewHolder(private val viewBinding: ItemUserBinding) :
+    inner class ViewHolder(private val viewBinding: ItemRepoBinding) :
         RecyclerView.ViewHolder(viewBinding.root),
-        UserItemView {
+        RepoItemView {
         override var pos = -1
 
-        override fun setLogin(text: String, avatar: String) = with(viewBinding) {
-            tvLogin.setUserAvatar(avatar)
-            tvLogin.text = text
+        override fun setRepo(repo: String) = with(viewBinding) {
+            tvRepo.text = repo
         }
     }
 }
