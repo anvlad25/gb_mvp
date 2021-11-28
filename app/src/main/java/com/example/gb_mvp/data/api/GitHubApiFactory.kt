@@ -1,6 +1,5 @@
 package com.example.gb_mvp.data.api
 
-import com.example.gb_mvp.data.GithubUser
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
@@ -16,7 +15,7 @@ object GitHubApiFactory {
             .setPrettyPrinting()
             .create()
 
-    fun create(): GitHubApi =
+    private val gitHubApi: GitHubApi by lazy {
         Retrofit.Builder()
             .baseUrl("https://api.github.com")
             .client(
@@ -34,5 +33,8 @@ object GitHubApiFactory {
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
             .create(GitHubApi::class.java)
+    }
+
+    fun create(): GitHubApi = gitHubApi
 
 }

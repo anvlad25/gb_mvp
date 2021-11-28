@@ -8,12 +8,12 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gb_mvp.App
 import com.example.gb_mvp.adapter.UsersRVAdapter
-import com.example.gb_mvp.data.GithubUsersRepo
 import com.example.gb_mvp.databinding.FragmentUsersBinding
 import com.example.gb_mvp.main.BackButtonListener
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import androidx.recyclerview.widget.DividerItemDecoration
+import com.example.gb_mvp.data.user.GitHubUserRepositoryFactory
 
 class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
     companion object {
@@ -22,7 +22,7 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
 
     private val presenter: UsersPresenter by moxyPresenter {
         UsersPresenter(
-            GithubUsersRepo(),
+            GitHubUserRepositoryFactory.create(),
             App.instance.router
         )
     }

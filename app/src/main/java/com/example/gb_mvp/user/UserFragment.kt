@@ -8,10 +8,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gb_mvp.App
 import com.example.gb_mvp.adapter.ReposRVAdapter
 import com.example.gb_mvp.arguments
+import com.example.gb_mvp.data.repository.GitHubRepository
 import com.example.gb_mvp.main.BackButtonListener
-import com.example.gb_mvp.data.GithubUser
-import com.example.gb_mvp.data.GithubUsersRepo
-import com.example.gb_mvp.data.UserRepos
+import com.example.gb_mvp.data.user.GitHubUser
+import com.example.gb_mvp.data.user.GitHubUserRepositoryFactory
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import com.example.gb_mvp.databinding.FragmentUserBinding
@@ -43,7 +43,7 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
     private val presenter: UserPresenter by moxyPresenter {
         UserPresenter(
             userLogin,
-            GithubUsersRepo(),
+            GitHubUserRepositoryFactory.create(),
             App.instance.router
         )
     }
@@ -59,12 +59,12 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
         adapter?.notifyDataSetChanged()
     }
 
-    override fun showUser(user: GithubUser) {
+    override fun showUser(user: GitHubUser) {
         viewBinding?.userLogin?.text = user.login
         viewBinding?.userLogin?.setUserAvatar(user.avatar)
     }
 
-    override fun showDialogRepo(repo: UserRepos) {
+    override fun showDialogRepo(repo: GitHubRepository) {
         val myDialogFragment = RepoDialog(repo)
         myDialogFragment.show(childFragmentManager, "repo")
     }

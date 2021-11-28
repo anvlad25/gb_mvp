@@ -17,7 +17,6 @@ class MainActivity : MvpAppCompatActivity(), MainView {
     private var vb: ActivityMainBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        App.instance = App() //!!!
         super.onCreate(savedInstanceState)
         vb = ActivityMainBinding.inflate(layoutInflater)
         setContentView(vb?.root)
