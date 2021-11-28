@@ -1,25 +1,22 @@
 package com.example.gb_mvp.data
 
+import com.example.gb_mvp.data.api.GitHubApi
+import com.example.gb_mvp.data.api.GitHubApiFactory
 import io.reactivex.rxjava3.core.Maybe
 import io.reactivex.rxjava3.core.Single
 
-class GithubUsersRepo {
-    private val repositoriesUsers = listOf(
-        GithubUser("login1"),
-        GithubUser("login2"),
-        GithubUser("login3"),
-        GithubUser("login4"),
-        GithubUser("login5")
-    )
+class GithubUsersRepo(private val repositoriesUsers: GitHubApi = GitHubApiFactory.create()) {
 
     fun getUsers(): Single<List<GithubUser>> =
-        Single.just(repositoriesUsers)
+        repositoriesUsers.fetchUsers()
 
-    fun getUserByLogin(userId: String): Maybe<GithubUser> =
-        repositoriesUsers.firstOrNull { user -> user.login == userId }
-            ?.let { Maybe.just(it) }
-            ?: Maybe.empty()
+    fun getUserByLogin(login: String): Maybe<GithubUser> =
+        repositoriesUsers
+            .fetchUserByLogin(login)
+            .onErrorComplete()
 
-    fun getLoginByPos(userPos: Int): Single<String> =
-        Single.just(repositoriesUsers[userPos].login)
+    fun getUserRepo(login: String): Maybe<List<UserRepos>> =
+        repositoriesUsers
+            .fetchUserRepositories(login)
+            .onErrorComplete()
 }

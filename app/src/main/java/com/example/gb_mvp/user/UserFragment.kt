@@ -1,16 +1,21 @@
 package com.example.gb_mvp.user
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gb_mvp.App
+import com.example.gb_mvp.adapter.ReposRVAdapter
 import com.example.gb_mvp.arguments
-import com.example.gb_mvp.databinding.FragmentUserBinding
 import com.example.gb_mvp.main.BackButtonListener
 import com.example.gb_mvp.data.GithubUser
 import com.example.gb_mvp.data.GithubUsersRepo
+import com.example.gb_mvp.data.UserRepos
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
+import com.example.gb_mvp.databinding.FragmentUserBinding
+import com.example.gb_mvp.setUserAvatar
 
 
 class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
@@ -20,6 +25,7 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
     }
 
     private var viewBinding: FragmentUserBinding? = null
+    private var adapter: ReposRVAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,8 +48,25 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
         )
     }
 
+    override fun init() {
+        viewBinding?.rvUserRepos?.layoutManager = LinearLayoutManager(context)
+        adapter = ReposRVAdapter(presenter.reposListPresenter)
+        viewBinding?.rvUserRepos?.adapter = adapter
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    override fun updateList() {
+        adapter?.notifyDataSetChanged()
+    }
+
     override fun showUser(user: GithubUser) {
         viewBinding?.userLogin?.text = user.login
+        viewBinding?.userLogin?.setUserAvatar(user.avatar)
+    }
+
+    override fun showDialogRepo(repo: UserRepos) {
+        val myDialogFragment = RepoDialog(repo)
+        myDialogFragment.show(childFragmentManager, "repo")
     }
 
     override fun backPressed() = presenter.backPressed()
