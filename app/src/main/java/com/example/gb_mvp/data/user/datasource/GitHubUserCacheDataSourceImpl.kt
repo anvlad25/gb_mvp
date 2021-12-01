@@ -4,8 +4,10 @@ import com.example.gb_mvp.data.user.GitHubUser
 import com.example.gb_mvp.storage.GitHubStorage
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
+import javax.inject.Inject
 
-class GitHubUserCacheDataSourceImpl(
+class GitHubUserCacheDataSourceImpl
+@Inject constructor(
     private val gitHubStorage: GitHubStorage
 ) : GitHubUserCacheDataSource {
 

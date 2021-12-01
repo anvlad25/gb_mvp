@@ -4,8 +4,10 @@ import com.example.gb_mvp.data.repository.GitHubRepository
 import com.example.gb_mvp.storage.GitHubStorage
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
+import javax.inject.Inject
 
-class GitHubRepositoryCacheDataSourceImpl(
+class GitHubRepositoryCacheDataSourceImpl
+@Inject constructor(
     private val gitHubStorage: GitHubStorage
 ): GitHubRepositoryCacheDataSource {
 
