@@ -8,22 +8,27 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gb_mvp.App
 import com.example.gb_mvp.adapter.UsersRVAdapter
-import com.example.gb_mvp.data.GithubUsersRepo
 import com.example.gb_mvp.databinding.FragmentUsersBinding
 import com.example.gb_mvp.main.BackButtonListener
-import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import androidx.recyclerview.widget.DividerItemDecoration
+import com.example.gb_mvp.R
+import com.example.gb_mvp.abs.AbsFragment
+import com.example.gb_mvp.data.user.GitHubUserRepository
+import javax.inject.Inject
 
-class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
+class UsersFragment : AbsFragment(R.layout.fragment_users), UsersView, BackButtonListener {
     companion object {
         fun newInstance() = UsersFragment()
     }
 
+    @Inject
+    lateinit var gitHubUserRepository: GitHubUserRepository
+
     private val presenter: UsersPresenter by moxyPresenter {
         UsersPresenter(
-            GithubUsersRepo(),
-            App.instance.router
+            gitHubUserRepository,
+            router
         )
     }
     private var adapter: UsersRVAdapter? = null

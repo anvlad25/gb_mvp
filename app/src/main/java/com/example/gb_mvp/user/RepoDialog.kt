@@ -4,9 +4,9 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
-import com.example.gb_mvp.data.UserRepos
+import com.example.gb_mvp.data.repository.GitHubRepository
 
-class RepoDialog(private val repo: UserRepos) : DialogFragment() {
+class RepoDialog(private val repo: GitHubRepository) : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
             val builder = AlertDialog.Builder(it)

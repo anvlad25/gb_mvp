@@ -1,23 +1,31 @@
 package com.example.gb_mvp
 
-import android.app.Application
+
+import com.example.gb_mvp.di.DaggerGbMvpComponent
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
+import dagger.android.AndroidInjector
+import dagger.android.DaggerApplication
 
-class App : Application() {
+class App : DaggerApplication() {
     companion object {
         lateinit var instance: App
     }
 
-    //Временно до даггера положим это тут
-    private val cicerone: Cicerone<Router> by lazy {
-        Cicerone.create()
-    }
-    val navigatorHolder get() = cicerone.getNavigatorHolder()
-    val router get() = cicerone.router
 
     override fun onCreate() {
         super.onCreate()
         instance = this
     }
+
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> =
+        DaggerGbMvpComponent
+            .builder()
+            .withContext(applicationContext)
+            .apply {
+                val cicerone = Cicerone.create(Router())
+                withRouter(cicerone.router)
+                withNavigatorHolder(cicerone.getNavigatorHolder())
+            }
+            .build()
 }

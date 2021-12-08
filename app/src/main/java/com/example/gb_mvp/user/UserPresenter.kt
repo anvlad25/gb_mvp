@@ -1,11 +1,9 @@
 package com.example.gb_mvp.user
 
 import com.example.gb_mvp.adapter.IRepoListPresenter
-import com.example.gb_mvp.adapter.IUserListPresenter
 import com.example.gb_mvp.adapter.RepoItemView
-import com.example.gb_mvp.adapter.UserItemView
-import com.example.gb_mvp.data.GithubUsersRepo
-import com.example.gb_mvp.data.UserRepos
+import com.example.gb_mvp.data.repository.GitHubRepository
+import com.example.gb_mvp.data.user.GitHubUserRepository
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -14,12 +12,12 @@ import moxy.MvpPresenter
 
 class UserPresenter(
     private val userLogin: String,
-    private val userRepository: GithubUsersRepo,
+    private val userRepository: GitHubUserRepository,
     private val router: Router
 ) : MvpPresenter<UserView>() {
 
     class ReposListPresenter : IRepoListPresenter {
-        val repos = mutableListOf<UserRepos>()
+        val repos = mutableListOf<GitHubRepository>()
         override var itemClickListener: ((RepoItemView) -> Unit)? = null
 
         override fun getCount() = repos.size
@@ -54,7 +52,7 @@ class UserPresenter(
 
         disposables.add(
             userRepository
-                .getUserRepo(userLogin)
+                .getUserRepositories(userLogin)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({ repos ->
